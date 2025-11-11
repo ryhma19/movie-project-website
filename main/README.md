@@ -1,12 +1,12 @@
 # movie-project-website
 
-Database:
+## Database:
     docker compose up -d
 
-Backend:
+## Backend:
     npm install
     npm run dev
 
-Frontend:
+## Frontend:
     npm install
     npm run dev
