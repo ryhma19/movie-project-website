@@ -4,11 +4,14 @@ dotenv.config();
 import express from 'express';
 import cors from 'cors';
 import { pool } from './db.js';
+import movieRoutes from '../routes/movies.js'; // Elokuvien hakureitti
 
 const app = express();
-app.use(cors());
-app.use(express.json());
+app.use(cors()); // Sallitaan pyynnöt frontendistä (eri portista)
+app.use(express.json()); // Parsitaan JSON-pyyntöjen body
+app.use('/api', movieRoutes); // Rekisteröidään elokuvien hakureitti /api-polkuun
 
+// Health check -päätepiste: tarkistaa toimiiko backend ja tietokanta
 app.get('/api/health', async (_req, res) => {
   try {
     const { rows } = await pool.query('SELECT NOW()');

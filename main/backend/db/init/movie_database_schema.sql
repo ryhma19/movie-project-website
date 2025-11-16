@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict shW6BXbya4JbvwPw0LMCOjjbNBQChSkUNtrPbaPoUt4QtSqCAVu7TZfmlKBbb46
+-- \restrict shW6BXbya4JbvwPw0LMCOjjbNBQChSkUNtrPbaPoUt4QtSqCAVu7TZfmlKBbb46
 
 -- Dumped from database version 18.0
 -- Dumped by pg_dump version 18.0
@@ -12,7 +12,7 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
-SET transaction_timeout = 0;
+-- SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -526,5 +526,5 @@ ALTER TABLE ONLY public.reviews
 -- PostgreSQL database dump complete
 --
 
-\unrestrict shW6BXbya4JbvwPw0LMCOjjbNBQChSkUNtrPbaPoUt4QtSqCAVu7TZfmlKBbb46
+-- \unrestrict shW6BXbya4JbvwPw0LMCOjjbNBQChSkUNtrPbaPoUt4QtSqCAVu7TZfmlKBbb46
 
