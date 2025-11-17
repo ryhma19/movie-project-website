@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import NowPlaying from './components/NowPlaying';
+import NowPlaying from '../components/NowPlaying.jsx';
 
 export default function App() {
   const cards = new Array(5).fill(0);
@@ -57,10 +57,8 @@ export default function App() {
       </header>
 
       <main>
-        {/* Now in theaters -karuselli TMDB:stä */}
         <NowPlaying />
 
-        {/* Hakutulokset */}
         {showResults && (
           <section>
             <h2>Search results</h2>
@@ -101,7 +99,6 @@ export default function App() {
           </section>
         )}
 
-        {/* Vanha Popular movies -placeholder, jätetään toistaiseksi ennalleen */}
         <section>
           <h2>Popular movies</h2>
           <div className="movies-grid">
