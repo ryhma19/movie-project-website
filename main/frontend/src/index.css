@@ -24,14 +24,13 @@ body{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 header{
-  display:flex;
-  align-items:center;
   background-color:#1a1a1a;
-  padding:10px;
+  padding:10px 0;
   color:var(--accent);
   font-weight:bold;
   position:sticky;
   top:0;
+  z-index: 10;
 }
 header .logo{
   font-size:24px;
@@ -39,7 +38,7 @@ header .logo{
   letter-spacing:1px;
 }
 header input[type="search"]{
-  flex-grow:1;
+  width:100%;
   padding:4px;
   font-size:14px;
   background:#333;
@@ -47,7 +46,7 @@ header input[type="search"]{
   border:2px solid #444;
   box-shadow:none;
   outline:none;
-  margin-right:20px;
+  margin-right:0;
 }
 header button, header .user{
   background:#222;
@@ -59,6 +58,51 @@ header button, header .user{
   padding:4px 10px;
   font-weight:bold;
 }
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 16px;
+
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 16px;
+}
+
+.header-left {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.site-logo {
+  width: 32px;
+  height: 32px;
+}
+
+.site-title {
+  font-size:24px;
+  margin:0;
+  color:var(--accent);
+  letter-spacing:1px;
+  font-weight:bold;
+}
+
+.header-center {
+  display:flex;
+  justify-content:center;
+}
+
+.search-form {
+  width:100%;
+  max-width:400px;
+}
+
+.header-right {
+  display:flex;
+  align-items:center;
+}
+
 main{
   margin:24px;
   flex: 1;

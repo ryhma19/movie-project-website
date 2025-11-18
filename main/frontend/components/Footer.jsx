@@ -1,5 +1,5 @@
 import React from "react";
-import tmdbLogo from "../public/tmdb.svg";
+import tmdbLogo from "../src/assets/tmdb.svg";
 
 export default function Footer() {
   return (
