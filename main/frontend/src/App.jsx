@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import NowPlaying from '../components/NowPlaying.jsx';
+import Footer from "../components/Footer";
 
 export default function App() {
   const cards = new Array(5).fill(0);
@@ -117,6 +118,7 @@ export default function App() {
           </div>
         </section>
       </main>
+      <Footer/>
     </>
   );
 }
