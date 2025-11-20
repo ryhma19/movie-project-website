@@ -40,7 +40,7 @@ app.get('/api/now-playing', async (req, res) => {
 
     const tmdbRes = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${process.env.TMBD_API_KEY}`,
+        Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
         'Content-Type': 'application/json;charset=utf-8',
       },
     });
