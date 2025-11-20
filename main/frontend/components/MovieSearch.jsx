@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+const TMDB_BASE_URL = "https://api.themoviedb.org/3";
+
 export default function MovieSearch() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -12,15 +15,10 @@ export default function MovieSearch() {
     setIsSearching(true);
     setShowResults(true);
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/movies/search?query=${encodeURIComponent(searchQuery)}`
-      );
+      const url = `${TMDB_BASE_URL}/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(searchQuery)}`;
+      const response = await fetch(url);
       const data = await response.json();
-      if (data.success) {
-        setSearchResults(data.movies || []);
-      } else {
-        setSearchResults([]);
-      }
+      setSearchResults(data.results || []);
     } catch (error) {
       setSearchResults([]);
     } finally {
