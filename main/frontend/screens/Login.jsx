@@ -1,0 +1,55 @@
+import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
+export default function Login() {
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+
+  const handleChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    try {
+      const res = await fetch('http://localhost:3000/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+
+      console.log("RAW RESPONSE:", res); // Log the raw response
+      console.log("RESPONSE STATUS:", res.status); // Check HTTP status
+
+      const data = await res.json();
+
+      console.log("RESPONSE JSON:", data); // Log parsed JSON
+      console.log("data.success type:", typeof data.success);
+      console.log("data.success value:", data.success);
+
+      if (data.success) {
+        console.log("SUCCESS TRUE — redirecting to /home");
+        setMessage("Login successful!");
+        navigate("/home");  // ⭐ Redirect here
+      } else {
+        console.log("SUCCESS FALSE — stay on login page");
+        setMessage(data.message || 'Virhe kirjautumisessa');
+      }
+
+    } catch (err) {
+      console.error("Login fetch failed:", err);
+      setMessage("Network error: " + err.message);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name="email" value={form.email} onChange={handleChange} placeholder="Sähköposti" />
+      <input name="password" type="password" value={form.password} onChange={handleChange} placeholder="Salasana" />
+      <button type="submit">Kirjaudu</button>
+      <div>{message}</div>
+    </form>
+  );
+}

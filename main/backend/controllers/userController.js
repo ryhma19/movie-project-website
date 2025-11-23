@@ -15,7 +15,7 @@ export async function register(req, res) {
 
     // Luodaan uusi käyttäjä tietokantaan
     const user = await createUser(email, displayName, password);
-    res.status(201).json({ message: 'User registered successfully', userId: user.id });
+    res.status(201).json({ success: true, message: 'User registered successfully', userId: user.id });
 
   } catch (err) {
     // Virhetilanteessa palautetaan palvelinvirheviesti
@@ -40,7 +40,7 @@ export async function login(req, res) {
     }
 
     // Kirjautuminen onnistui, palautetaan käyttäjätiedot
-    res.status(200).json({ message: 'Login successful', userId: user.id, displayName: user.display_name });
+    res.status(200).json({ success: true, message: 'Login successful', userId: user.id, displayName: user.display_name });
 
   } catch (err) {
     // Virhetilanteessa palautetaan palvelinvirheviesti
