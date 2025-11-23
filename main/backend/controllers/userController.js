@@ -1,5 +1,6 @@
 import { findUserByEmail, createUser } from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
+import { pool } from '../src/db.js'
 
 
 //Rekisteröi uuden käyttäjän tarkistamalla ensin, onko sähköpostiosoite jo käytössä
@@ -44,5 +45,35 @@ export async function login(req, res) {
   } catch (err) {
     // Virhetilanteessa palautetaan palvelinvirheviesti
     res.status(500).json({ message: 'Login error' });
+  }
+}
+
+export async function deleteUser(req, res) {
+  const idParam = req.params.id; 
+  
+  const id = Number(idParam);
+  if (!Number.isInteger(id) || id <= 0) {
+    return res.status(400).json({ message: 'Invalid user id'});
+  }
+
+  try {
+    const result = await pool.query(
+      `DELETE FROM users
+      WHERE id = $1
+      RETURNING id, email, display_name`,
+    [id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(400).json({ message: 'User not found' });
+    }
+
+    return res.status(200).json({
+      message: 'User deleted successfully',
+      user: result.rows[0],
+    });
+  } catch (err) {
+    console.error('Delete user error', err);
+    return res.status(500).json({ message: 'Delete user failed'});
   }
 }

@@ -1,5 +1,5 @@
 import express from 'express';
-import { register, login } from '../controllers/userController.js';
+import { register, login, deleteUser } from '../controllers/userController.js';
 
 const router = express.Router();
 
@@ -18,5 +18,7 @@ router.post('/register', register);
  * Palauttaa onnistumis- tai virheviestin JSON-muodossa
  */
 router.post('/login', login);
+
+router.delete('/:id', deleteUser);
 
 export default router;
