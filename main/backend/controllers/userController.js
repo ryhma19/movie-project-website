@@ -1,11 +1,14 @@
 import { findUserByEmail, createUser } from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
-import { pool } from '../src/db.js'
-
 
 //Rekisteröi uuden käyttäjän tarkistamalla ensin, onko sähköpostiosoite jo käytössä
 export async function register(req, res) {
   const { email, displayName, password } = req.body;
+
+  if (!email || !displayName || !password) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
   try {
     // Tarkistetaan, onko käyttäjä jo rekisteröity sähköpostilla
     const existingUser = await findUserByEmail(email);
@@ -15,17 +18,28 @@ export async function register(req, res) {
 
     // Luodaan uusi käyttäjä tietokantaan
     const user = await createUser(email, displayName, password);
-    res.status(201).json({ success: true, message: 'User registered successfully', userId: user.id });
+
+    res.status(201).json({
+      success: true,
+      message: 'User registered successfully',
+      userId: user.id,
+    });
 
   } catch (err) {
     // Virhetilanteessa palautetaan palvelinvirheviesti
-    res.status(500).json({ message: 'Registration error' });
+    console.error('Registration error:', err); // log full error
+    res.status(500).json({ message: 'Registration error', error: err.message });
   }
 }
 
 //Kirjaa käyttäjän sisään tarkistamalla sähköposti ja salasana
 export async function login(req, res) {
   const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Email and password are required' });
+  }
+
   try {
     // Haetaan käyttäjä sähköpostilla
     const user = await findUserByEmail(email);
@@ -40,11 +54,17 @@ export async function login(req, res) {
     }
 
     // Kirjautuminen onnistui, palautetaan käyttäjätiedot
-    res.status(200).json({ success: true, message: 'Login successful', userId: user.id, displayName: user.display_name });
+    res.status(200).json({
+      success: true,
+      message: 'Login successful',
+      userId: user.id,
+      displayName: user.display_name,
+    });
 
   } catch (err) {
     // Virhetilanteessa palautetaan palvelinvirheviesti
-    res.status(500).json({ message: 'Login error' });
+    console.error('Login error:', err);
+    res.status(500).json({ message: 'Login error', error: err.message });
   }
 }
 
@@ -53,15 +73,15 @@ export async function deleteUser(req, res) {
   
   const id = Number(idParam);
   if (!Number.isInteger(id) || id <= 0) {
-    return res.status(400).json({ message: 'Invalid user id'});
+    return res.status(400).json({ message: 'Invalid user id' });
   }
 
   try {
     const result = await pool.query(
       `DELETE FROM users
-      WHERE id = $1
-      RETURNING id, email, display_name`,
-    [id]
+       WHERE id = $1
+       RETURNING id, email, display_name`,
+      [id]
     );
 
     if (result.rowCount === 0) {
@@ -72,8 +92,9 @@ export async function deleteUser(req, res) {
       message: 'User deleted successfully',
       user: result.rows[0],
     });
+
   } catch (err) {
     console.error('Delete user error', err);
-    return res.status(500).json({ message: 'Delete user failed'});
+    return res.status(500).json({ message: 'Delete user failed', error: err.message });
   }
 }
