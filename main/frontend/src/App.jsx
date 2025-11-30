@@ -6,31 +6,14 @@ import Logo from "../src/assets/movies-app.png";
 import MovieSearch from "../components/MovieSearch.jsx";
 import Register from "../screens/Register";
 import Login from "../screens/Login";
+import PopularMovies from "../components/PopularMovies.jsx";
 
 const HomePage = () => {
   const cards = new Array(5).fill(0);
   return (
     <>
       <NowPlaying />
-      <section>
-        <h2>Popular movies</h2>
-        <div className="movies-grid">
-          {cards.map((_, i) => (
-            // Yksittäinen elokuvakortti
-            <div className="movie-card" key={"pop-" + i}>
-              <div className="stars">
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-                <span className="empty">★</span>
-                <span className="empty">★</span>
-              </div>
-              {/* Elokuvan otsikko ja kuvaus */}
-              <div className="movie-desc">movie title and description</div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <PopularMovies />
     </>
   );
 };
