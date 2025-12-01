@@ -15,7 +15,7 @@ export default function NowPlaying() {
       try {
         setLoading(true);
         setErr(null);
-        const res = await fetch("http://localhost:3000/api/now-playing");
+        const res = await fetch("http://localhost:3000/api/movies/now-playing");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
         if (!cancelled) setMovies(data.results ?? []);
