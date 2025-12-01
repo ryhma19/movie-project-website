@@ -1,5 +1,6 @@
 import { findUserByEmail, createUser } from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
+import { pool } from '../src/db.js';
 
 //Rekisteröi uuden käyttäjän tarkistamalla ensin, onko sähköpostiosoite jo käytössä
 export async function register(req, res) {
@@ -97,4 +98,16 @@ export async function deleteUser(req, res) {
     console.error('Delete user error', err);
     return res.status(500).json({ message: 'Delete user failed', error: err.message });
   }
+}
+
+export async function getAllUsers(req, res) {
+    try {
+      const result = await pool.query(
+        'SELECT id, email, display_name FROM users ORDER BY id'
+      );
+      res.json({ users: result.rows });
+    } catch (err) {
+      console.error('Get all users error', err);
+      res.status(500).json({ message: 'Failed to fetch users' });
+    }
 }

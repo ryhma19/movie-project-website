@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import FavoriteButton from "./FavoriteButton.jsx";
 
-export default function NowPlaying() {
+export default function PopularMovies() {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(null);
@@ -11,12 +10,15 @@ export default function NowPlaying() {
 
   useEffect(() => {
     let cancelled = false;
+
     async function load() {
       try {
         setLoading(true);
         setErr(null);
-        const res = await fetch("http://localhost:3000/api/movies/now-playing");
+
+        const res = await fetch("http://localhost:3000/api/movies/popular");
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
         const data = await res.json();
         if (!cancelled) setMovies(data.results ?? []);
       } catch (e) {
@@ -25,6 +27,7 @@ export default function NowPlaying() {
         if (!cancelled) setLoading(false);
       }
     }
+
     load();
     return () => {
       cancelled = true;
@@ -36,6 +39,7 @@ export default function NowPlaying() {
     if (!el) return;
     const firstCard = el.querySelector(".np-card");
     if (!firstCard) return;
+
     const style = window.getComputedStyle(el);
     const gap = parseInt(style.columnGap || "16", 10);
     setStep(firstCard.offsetWidth + gap);
@@ -44,31 +48,34 @@ export default function NowPlaying() {
   const scrollByCards = (dir) => {
     const el = scrollerRef.current;
     if (!el) return;
+
     el.scrollBy({
       left: (dir === "right" ? 1 : -1) * step * 5,
       behavior: "smooth",
     });
   };
 
-  if (loading)
+  if (loading) {
     return (
       <section className="np-section container">
-        <h2 className="np-title">Now in theaters</h2>
+        <h2 className="np-title">Popular movies</h2>
         <p>Loading…</p>
       </section>
     );
+  }
 
-  if (err)
+  if (err) {
     return (
       <section className="np-section container">
-        <h2 className="np-title">Now in theaters</h2>
+        <h2 className="np-title">Popular movies</h2>
         <p style={{ color: "tomato" }}>Error: {err}</p>
       </section>
     );
+  }
 
   return (
     <section className="np-section container">
-      <h2 className="np-title">Now in theaters</h2>
+      <h2 className="np-title">Popular movies</h2>
 
       <div className="np-carousel">
         <button
@@ -80,7 +87,7 @@ export default function NowPlaying() {
         </button>
 
         <div className="np-scroller" ref={scrollerRef}>
-          {movies.map(m => (
+          {movies.map((m) => (
             <article className="np-card" key={m.id}>
               <div className="np-imgwrap">
                 {m.poster ? (
@@ -89,7 +96,7 @@ export default function NowPlaying() {
                   <div className="np-placeholder">No image</div>
                 )}
               </div>
-              <FavoriteButton movieId={m.id} movieTitle={m.title} />
+
               <div className="np-meta">
                 <div className="np-stars">
                   ⭐ {m.vote_average?.toFixed?.(1) ?? "–"}
