@@ -1,5 +1,6 @@
 // MovieSearch-komponentti: hakee elokuvia TMDB:n API:sta hakusanan perusteella
 import React, { useState } from "react";
+import FavoriteButton from "./FavoriteButton.jsx";
 
 // TMDB API-avain .env-tiedostosta
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -59,7 +60,7 @@ export default function MovieSearch() {
           {!isSearching && searchResults.length > 0 && (
             <div className="movies-grid">
               {searchResults.map((movie) => (
-                <div className="movie-card" key={movie.id}>
+                <div className="movie-card" key={movie.id} style={{ position: 'relative' }}>
                   <div className="movie-image">
                     {movie.poster_path ? (
                       <img
@@ -71,6 +72,8 @@ export default function MovieSearch() {
                       "No image"
                     )}
                   </div>
+                  {/* Suosikkinappi */}
+                  <FavoriteButton movieId={movie.id} movieTitle={movie.title} />
                   {/* Elokuvan arvosana */}
                   <div className="stars">
                     ⭐ {movie.vote_average?.toFixed?.(1) ?? "–"}

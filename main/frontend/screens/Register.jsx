@@ -19,6 +19,12 @@ export default function Register() {
     const data = await res.json();
     console.log("API response", data);
     if (data.success) {
+      if (data.userId) {
+        localStorage.setItem('userId', data.userId);
+      }
+      if (form.displayName) {
+        localStorage.setItem('displayName', form.displayName);
+      }
       setSuccess(true);
     } else {
       setMessage(data.message || 'Virhe rekisteröinnissä');

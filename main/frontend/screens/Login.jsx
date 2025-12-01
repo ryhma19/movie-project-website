@@ -30,9 +30,15 @@ export default function Login() {
       console.log("data.success value:", data.success);
 
       if (data.success) {
-        console.log("SUCCESS TRUE — redirecting to /home");
+        console.log("SUCCESS TRUE — saving user info and redirecting");
+        if (data.userId) {
+          localStorage.setItem('userId', data.userId);
+        }
+        if (data.displayName) {
+          localStorage.setItem('displayName', data.displayName);
+        }
         setMessage("Login successful!");
-        navigate("/home");  // ⭐ Redirect here
+        navigate("/home");
       } else {
         console.log("SUCCESS FALSE — stay on login page");
         setMessage(data.message || 'Virhe kirjautumisessa');

@@ -6,6 +6,7 @@ import cors from 'cors';
 import { pool } from './db.js';
 // import movieRoutes from '../routes/movies.js'; // Elokuvien hakureitti
 import userRoutes from '../routes/userRoutes.js'; // Käyttäjärekisteröinti- ja kirjautumisreitit
+import favoriteRoutes from '../routes/favoriteRoutes.js'; // Suosikkilistan reitit
 
 const app = express();
 app.use(cors()); // Sallitaan pyynnöt frontendistä (eri portista)
@@ -18,6 +19,7 @@ app.get('/', (_req, res) => {
 
 // app.use('/api', movieRoutes); // Rekisteröidään elokuvien hakureitti /api-polkuun
 app.use('/api/users', userRoutes); // Rekisteröidään käyttäjän rekisteröinti- ja kirjautumisreitit /api/users-polkuun
+app.use('/api/favorites', favoriteRoutes); // Rekisteröidään suosikkilistan reitit /api/favorites-polkuun
 
 // Health check -päätepiste: tarkistaa toimiiko backend ja tietokanta
 app.get('/api/health', async (_req, res) => {

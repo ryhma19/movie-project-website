@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Routes, Route, Link, Navigate } from "react-router-dom";
 import NowPlaying from "../components/NowPlaying.jsx";
 import Footer from "../components/Footer";
 import Logo from "../src/assets/movies-app.png";
 import MovieSearch from "../components/MovieSearch.jsx";
+import FavoritesList from "../components/FavoritesList.jsx";
 import Register from "../screens/Register";
 import Login from "../screens/Login";
 
@@ -36,6 +37,8 @@ const HomePage = () => {
 };
 
 export default function App() {
+  const [showFavorites, setShowFavorites] = useState(false);
+
   return (
     <>
       <header>
@@ -50,7 +53,9 @@ export default function App() {
             <MovieSearch />
           </div>
           <div className="header-right">
-            <button>Favorites</button>
+            <button onClick={() => setShowFavorites(!showFavorites)}>
+              {showFavorites ? 'Hide Favorites' : 'Favorites'}
+            </button>
             <button>+</button>
             {/* Navigointi sisäänkirjautumis- ja rekisteröitymissivuille */}
             <Link to="/login">
@@ -63,6 +68,7 @@ export default function App() {
         </div>
       </header>
       <main>
+        {showFavorites && <FavoritesList />}
         <Routes>
           {/* Oletusreitti ohjaa etusivulle */}
           <Route path="/" element={<Navigate to="/home" replace />} />

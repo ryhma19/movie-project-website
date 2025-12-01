@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import FavoriteButton from "./FavoriteButton.jsx";
 
 export default function NowPlaying() {
   const [movies, setMovies] = useState([]);
@@ -67,12 +68,13 @@ export default function NowPlaying() {
 
         <div className="np-scroller" ref={scrollerRef}>
           {movies.map(m => (
-            <article className="np-card" key={m.id}>
+            <article className="np-card" key={m.id} style={{ position: 'relative' }}>
               <div className="np-imgwrap">
                 {m.poster
                   ? <img src={m.poster} alt={m.title} />
                   : <div className="np-placeholder">No image</div>}
               </div>
+              <FavoriteButton movieId={m.id} movieTitle={m.title} />
               <div className="np-meta">
                 <div className="np-stars">⭐ {m.vote_average?.toFixed?.(1) ?? "–"}</div>
                 <h3 className="np-name">{m.title}</h3>
