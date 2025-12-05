@@ -7,6 +7,7 @@ import MovieSearch from "../components/MovieSearch.jsx";
 import FavoritesList from "../components/FavoritesList.jsx";
 import Register from "../screens/Register";
 import Login from "../screens/Login";
+import SharedFavorites from "../screens/SharedFavorites";
 import PopularMovies from "../components/PopularMovies.jsx";
 
 const HomePage = () => {
@@ -63,6 +64,8 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           {/* Muu ohjaus ohjataan etusivulle */}
           <Route path="*" element={<Navigate to="/home" replace />} />
+          {/* Jaettu suosikkilista tokenilla */}
+          <Route path="/share/:token" element={<SharedFavorites />} />
         </Routes>
       </main>
       {/* Sivuston alatunniste */}

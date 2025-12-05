@@ -1,5 +1,5 @@
 import express from 'express';
-import { addFavorite, getFavorites, removeFavorite } from '../controllers/favoriteController.js';
+import { addFavorite, getFavorites, removeFavorite, createShareLink, getSharedFavorites } from '../controllers/favoriteController.js';
 
 const router = express.Router();
 
@@ -9,6 +9,18 @@ const router = express.Router();
  * Body: { userId, mediaId, title }
  */
 router.post('/', addFavorite);
+
+/**
+ * Hae jaettu suosikkilista tokenilla (julkinen)
+ * GET /api/favorites/shared/:token
+ */
+router.get('/shared/:token', getSharedFavorites);
+
+/**
+ * Luo tai päivitä jaettava linkki käyttäjälle
+ * POST /api/favorites/:userId/share
+ */
+router.post('/:userId/share', createShareLink);
 
 /**
  * Hae käyttäjän kaikki suosikit

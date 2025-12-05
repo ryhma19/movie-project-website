@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import FavoriteButton from "./FavoriteButton.jsx";
 
 export default function PopularMovies() {
   const [movies, setMovies] = useState([]);
@@ -96,6 +97,7 @@ export default function PopularMovies() {
                   <div className="np-placeholder">No image</div>
                 )}
               </div>
+              <FavoriteButton movieId={m.id} movieTitle={m.title} />
 
               <div className="np-meta">
                 <div className="np-stars">
