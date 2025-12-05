@@ -1,4 +1,5 @@
 import { pool } from '../src/db.js';
+import crypto from 'crypto';
 
 /**
  * Lisää elokuva käyttäjän suosikkeihin
@@ -103,5 +104,66 @@ export async function removeFavorite(req, res) {
   } catch (err) {
     console.error('Remove favorite error:', err);
     res.status(500).json({ message: 'Failed to remove favorite' });
+  }
+}
+
+/**
+ * Luo tai uudistaa jaettavan linkin käyttäjän suosikkilistalle
+ * POST /api/favorites/:userId/share
+ */
+export async function createShareLink(req, res) {
+  const { userId } = req.params;
+
+  try {
+    const token = crypto.randomBytes(24).toString('hex');
+
+    const result = await pool.query(
+      `INSERT INTO favorite_list_shares (user_id, token, enabled)
+       VALUES ($1, $2, true)
+       ON CONFLICT (user_id)
+       DO UPDATE SET token = EXCLUDED.token, enabled = true, created_at = now()
+       RETURNING token` ,
+      [userId, token]
+    );
+
+    return res.status(200).json({ token: result.rows[0].token });
+  } catch (err) {
+    console.error('Create share link error:', err);
+    return res.status(500).json({ message: 'Failed to create share link' });
+  }
+}
+
+/**
+ * Hakee jaetun suosikkilistan tokenin perusteella (ei vaadi kirjautumista)
+ * GET /api/favorites/shared/:token
+ */
+export async function getSharedFavorites(req, res) {
+  const { token } = req.params;
+
+  try {
+    const share = await pool.query(
+      `SELECT user_id FROM favorite_list_shares WHERE token = $1 AND enabled = true`,
+      [token]
+    );
+
+    if (share.rows.length === 0) {
+      return res.status(404).json({ message: 'Shared list not found' });
+    }
+
+    const userId = share.rows[0].user_id;
+
+    const result = await pool.query(
+      `SELECT m.id, m.tmdb_id, m.kind, m.title, f.added_at
+       FROM favorites f
+       JOIN media m ON f.media_id = m.id
+       WHERE f.user_id = $1
+       ORDER BY f.added_at DESC`,
+      [userId]
+    );
+
+    return res.status(200).json({ favorites: result.rows });
+  } catch (err) {
+    console.error('Get shared favorites error:', err);
+    return res.status(500).json({ message: 'Failed to get shared favorites' });
   }
 }

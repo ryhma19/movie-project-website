@@ -8,6 +8,8 @@ export default function FavoritesList() {
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [shareLink, setShareLink] = useState('');
+  const [shareMsg, setShareMsg] = useState('');
 
   useEffect(() => {
     loadFavorites();
@@ -39,6 +41,26 @@ export default function FavoritesList() {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const createShare = async () => {
+    setShareMsg('');
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+      setShareMsg('Login required to share');
+      return;
+    }
+    try {
+      const res = await fetch(`http://localhost:3000/api/favorites/${userId}/share`, { method: 'POST' });
+      if (!res.ok) throw new Error('Failed to create share link');
+      const data = await res.json();
+      const link = `${window.location.origin}/share/${data.token}`;
+      setShareLink(link);
+      await navigator.clipboard?.writeText(link);
+      setShareMsg('Share link copied to clipboard');
+    } catch (e) {
+      setShareMsg(e.message);
     }
   };
 
@@ -92,6 +114,13 @@ export default function FavoritesList() {
   return (
     <section className="favorites-section">
       <h2>My Favorites ({favorites.length})</h2>
+      <div style={{ marginBottom: '12px' }}>
+        <button onClick={createShare} style={{ marginRight: 8 }}>Create share link</button>
+        {shareLink && (
+          <a href={shareLink} target="_blank" rel="noreferrer" style={{ color: '#9cf' }}>{shareLink}</a>
+        )}
+        {shareMsg && <div style={{ marginTop: 6, color: '#bbb' }}>{shareMsg}</div>}
+      </div>
       <div className="movies-grid">
         {favorites.map((favorite) => (
           <div className="movie-card" key={favorite.id} style={{ position: 'relative' }}>
