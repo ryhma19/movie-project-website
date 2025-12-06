@@ -3,10 +3,14 @@ dotenv.config();
 
 import express from 'express';
 import cors from 'cors';
-import { pool } from './db.js';
+import { pool } from './db.js'; // Fixed: app.js is in src/, so just ./db.js
+
 import userRoutes from '../routes/userRoutes.js'; // Käyttäjärekisteröinti- ja kirjautumisreitit
 import favoriteRoutes from '../routes/favoriteRoutes.js'; // Suosikkilistan reitit
 import movieRoutes from '../routes/movies.js'; // Elokuvien hakureitti
+
+// ryhmäreitit
+import groupRoutes from '../routes/groupRoutes.js'; // Ryhmien luonti, jäsenet, poistot
 
 const app = express();
 app.use(cors()); // Sallitaan pyynnöt frontendistä (eri portista)
@@ -20,6 +24,9 @@ app.get('/', (_req, res) => {
 // app.use('/api', movieRoutes); // Rekisteröidään elokuvien hakureitti /api-polkuun
 app.use('/api/users', userRoutes); // Rekisteröidään käyttäjän rekisteröinti- ja kirjautumisreitit /api/users-polkuun
 app.use('/api/favorites', favoriteRoutes); // Rekisteröidään suosikkilistan reitit /api/favorites-polkuun
+
+// rekisteröidään ryhmäreitit /api/groups
+app.use('/api/groups', groupRoutes); // Rekisteröidään ryhmätoiminnot
 
 // Health check -päätepiste: tarkistaa toimiiko backend ja tietokanta
 app.get('/api/health', async (_req, res) => {
