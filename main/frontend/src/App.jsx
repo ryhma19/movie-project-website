@@ -9,6 +9,7 @@ import Register from "../screens/Register";
 import Login from "../screens/Login";
 import SharedFavorites from "../screens/SharedFavorites";
 import PopularMovies from "../components/PopularMovies.jsx";
+import Account from "../screens/Account.jsx";
 
 const HomePage = () => {
   const cards = new Array(5).fill(0);
@@ -29,8 +30,10 @@ export default function App() {
         <div className="header-inner">
           <div className="header-left">
             {/* Sivuston logo */}
-            <img src={Logo} alt="Site logo" className="site-logo" />
-            <h1 className="site-title">Movies</h1>
+            <Link to="/home" className="home-link">
+              <img src={Logo} alt="Site logo" className="site-logo" />
+              <h1 className="site-title">Movies</h1>
+            </Link>
           </div>
           <div className="header-center">
             {/* Hakupalkki elokuville */}
@@ -38,10 +41,13 @@ export default function App() {
           </div>
           <div className="header-right">
             <button onClick={() => setShowFavorites(!showFavorites)}>
-              {showFavorites ? 'Hide Favorites' : 'Favorites'}
+              {showFavorites ? "Hide Favorites" : "Favorites"}
             </button>
             <button>+</button>
             {/* Navigointi sisäänkirjautumis- ja rekisteröitymissivuille */}
+            <Link to="/account">
+              <button>Account</button>
+            </Link>
             <Link to="/login">
               <button className="user">Sign in</button>
             </Link>
@@ -63,6 +69,7 @@ export default function App() {
           {/* Sisäänkirjautumissivu */}
           <Route path="/login" element={<Login />} />
           {/* Muu ohjaus ohjataan etusivulle */}
+          <Route path="/account" element={<Account />} />
           <Route path="*" element={<Navigate to="/home" replace />} />
           {/* Jaettu suosikkilista tokenilla */}
           <Route path="/share/:token" element={<SharedFavorites />} />

@@ -39,12 +39,33 @@ export default function Register() {
   }, [success, navigate]);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input name="email" value={form.email} onChange={handleChange} placeholder="Sähköposti" />
-      <input name="displayName" value={form.displayName} onChange={handleChange} placeholder="Käyttäjänimi" />
-      <input name="password" type="password" value={form.password} onChange={handleChange} placeholder="Salasana" />
-      <button type="submit">Rekisteröidy</button>
-      <div>{message}</div>
-    </form>
-  );
+  <form onSubmit={handleSubmit} className="auth-card">
+    <input
+      name="email"
+      value={form.email}
+      onChange={handleChange}
+      placeholder="Sähköposti"
+      className="auth-input"
+    />
+    <input
+      name="displayName"
+      value={form.displayName}
+      onChange={handleChange}
+      placeholder="Käyttäjänimi"
+      className="auth-input"
+    />
+    <input
+      name="password"
+      type="password"
+      value={form.password}
+      onChange={handleChange}
+      placeholder="Salasana"
+      className="auth-input"
+    />
+    <button type="submit" className="btn btn-block">
+      Rekisteröidy
+    </button>
+    <div className="auth-message error">{message}</div>
+  </form>
+);
 }
