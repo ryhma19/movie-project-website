@@ -10,6 +10,7 @@ import Login from "../screens/Login";
 import SharedFavorites from "../screens/SharedFavorites";
 import PopularMovies from "../components/PopularMovies.jsx";
 import Account from "../screens/Account.jsx";
+import MovieDetail from "../screens/MovieDetail.jsx";
 
 const HomePage = () => {
   const cards = new Array(5).fill(0);
@@ -70,6 +71,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           {/* Muu ohjaus ohjataan etusivulle */}
           <Route path="/account" element={<Account />} />
+          <Route path="/movie/:tmdbId" element={<MovieDetail />} />
           <Route path="*" element={<Navigate to="/home" replace />} />
           {/* Jaettu suosikkilista tokenilla */}
           <Route path="/share/:token" element={<SharedFavorites />} />
