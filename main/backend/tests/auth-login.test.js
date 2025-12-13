@@ -19,10 +19,6 @@ describe('POST /api/users/login', () => {
     );
   });
 
-  afterAll(async () => {
-    await pool.end();
-  });
-
   test('onnistuu oikeilla tunnuksilla', async () => {
     const res = await request(app)
       .post('/api/users/login')

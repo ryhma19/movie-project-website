@@ -11,7 +11,8 @@
   },
   "jest": {
   "testEnvironment": "node",
-  "verbose": true
+  "verbose": true,
+  "setupFilesAfterEnv": ["<rootDir>/tests/jest.setup.js"]
   },
   "repository": {
     "type": "git",

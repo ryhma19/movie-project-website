@@ -34,8 +34,10 @@ export async function testConnection() {
     }
 }
 
-testConnection()
+if (process.env.NODE_ENV !== 'test') {
+    testConnection()
 
 console.log('ENV:', process.env.PGUSER, process.env.PGHOST, process.env.PGDATABASE, process.env.PGPASSWORD, process.env.PGPORT);
+}
 
 export { pool }

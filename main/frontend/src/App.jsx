@@ -11,6 +11,7 @@ import SharedFavorites from "../screens/SharedFavorites";
 import PopularMovies from "../components/PopularMovies.jsx";
 import Account from "../screens/Account.jsx";
 import MovieDetail from "../screens/MovieDetail.jsx";
+import AuthButtons from "../components/AuthButtons.jsx";
 
 const HomePage = () => {
   const cards = new Array(5).fill(0);
@@ -49,12 +50,7 @@ export default function App() {
             <Link to="/account">
               <button>Account</button>
             </Link>
-            <Link to="/login">
-              <button className="user">Sign in</button>
-            </Link>
-            <Link to="/register">
-              <button>Register</button>
-            </Link>
+            <AuthButtons />
           </div>
         </div>
       </header>

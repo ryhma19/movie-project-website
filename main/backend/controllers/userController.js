@@ -100,6 +100,10 @@ export async function deleteUser(req, res) {
   }
 }
 
+export async function logout(req, res) {
+  return res.status(200).json({ message: "Logged out" });
+}
+
 export async function getAllUsers(req, res) {
     try {
       const result = await pool.query(
