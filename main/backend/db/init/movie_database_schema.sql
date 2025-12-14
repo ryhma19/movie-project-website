@@ -528,3 +528,14 @@ ALTER TABLE ONLY public.reviews
 
 -- \unrestrict shW6BXbya4JbvwPw0LMCOjjbNBQChSkUNtrPbaPoUt4QtSqCAVu7TZfmlKBbb46
 
+ALTER TABLE public.groups
+ADD COLUMN description text;
+
+ALTER TABLE public.groups
+ADD COLUMN is_private boolean DEFAULT false NOT NULL;
+
+ALTER TABLE public.groups
+ADD COLUMN updated_at timestamp with time zone DEFAULT now() NOT NULL;
+
+ALTER TABLE public.group_memberships
+ADD COLUMN role text DEFAULT 'member' NOT NULL;

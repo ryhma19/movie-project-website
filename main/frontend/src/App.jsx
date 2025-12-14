@@ -13,6 +13,9 @@ import Account from "../screens/Account.jsx";
 import MovieDetail from "../screens/MovieDetail.jsx";
 import AuthButtons from "../components/AuthButtons.jsx";
 import SearchResults from "../screens/SearchResults.jsx";
+import GroupsPage from "../screens/GroupsPage.jsx";
+import GroupDetail from "../screens/GroupDetail.jsx";
+
 
 const HomePage = () => {
   const cards = new Array(5).fill(0);
@@ -46,7 +49,12 @@ export default function App() {
             <button onClick={() => setShowFavorites(!showFavorites)}>
               {showFavorites ? "Hide Favorites" : "Favorites"}
             </button>
-            <button>+</button>
+
+            {/* Navigointi ryhmäsivulle */}
+            <Link to="/groups">
+              <button>Groups</button>
+            </Link>
+
             {/* Navigointi sisäänkirjautumis- ja rekisteröitymissivuille */}
             <Link to="/account">
               <button>Account</button>
@@ -73,6 +81,10 @@ export default function App() {
           {/* Jaettu suosikkilista tokenilla */}
           <Route path="/share/:token" element={<SharedFavorites />} />
           <Route path="/search" element={<SearchResults />} />
+
+          {/* Groups feature routes */}
+          <Route path="/groups" element={<GroupsPage />} />
+          <Route path="/groups/:id" element={<GroupDetail />} />
         </Routes>
       </main>
       {/* Sivuston alatunniste */}

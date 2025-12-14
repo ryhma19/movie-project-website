@@ -20,12 +20,12 @@ export default function Login() {
         body: JSON.stringify(form)
       });
 
-      console.log("RAW RESPONSE:", res); // Log the raw response
-      console.log("RESPONSE STATUS:", res.status); // Check HTTP status
+      console.log("RAW RESPONSE:", res); 
+      console.log("RESPONSE STATUS:", res.status); 
 
       const data = await res.json();
 
-      console.log("RESPONSE JSON:", data); // Log parsed JSON
+      console.log("RESPONSE JSON:", data); 
       console.log("data.success type:", typeof data.success);
       console.log("data.success value:", data.success);
 
@@ -51,28 +51,11 @@ export default function Login() {
   };
 
   return (
-  <div className="auth-wrapper">
-  <form onSubmit={handleSubmit} className="auth-card">
-    <input
-      name="email"
-      value={form.email}
-      onChange={handleChange}
-      placeholder="Sähköposti"
-      className="auth-input"
-    />
-    <input
-      name="password"
-      type="password"
-      value={form.password}
-      onChange={handleChange}
-      placeholder="Salasana"
-      className="auth-input"
-    />
-    <button type="submit" className="btn btn-block">
-      Kirjaudu
-    </button>
-    <div className="auth-message error">{message}</div>
-  </form>
-  </div>
-);
+    <form onSubmit={handleSubmit}>
+      <input name="email" value={form.email} onChange={handleChange} placeholder="Sähköposti" />
+      <input name="password" type="password" value={form.password} onChange={handleChange} placeholder="Salasana" />
+      <button type="submit">Kirjaudu</button>
+      <div>{message}</div>
+    </form>
+  );
 }
