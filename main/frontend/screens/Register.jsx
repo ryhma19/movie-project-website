@@ -39,6 +39,7 @@ export default function Register() {
   }, [success, navigate]);
 
   return (
+  <div className="auth-wrapper">
   <form onSubmit={handleSubmit} className="auth-card">
     <input
       name="email"
@@ -67,5 +68,6 @@ export default function Register() {
     </button>
     <div className="auth-message error">{message}</div>
   </form>
+  </div>
 );
 }

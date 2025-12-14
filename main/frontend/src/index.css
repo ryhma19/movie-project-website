@@ -205,7 +205,8 @@ h2 {
 .np-scroller {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: 240px;
+  --np-cols: 5;
+  grid-auto-columns: calc((100% - (var(--np-cols) - 1) * 20px) / var(--np-cols));
   column-gap: 20px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -497,28 +498,21 @@ h2 {
   opacity: 0.85;
 }
 
+@media (max-width: 1280px) {
+  .np-scroller { --np-cols: 4; }
+}
+
 @media (max-width: 1024px) {
-  .np-scroller {
-    grid-auto-columns: 200px;
-  }
+  .np-scroller { --np-cols: 3; }
+  header input[type="search"] {width: 75%;}
 }
+
 @media (max-width: 640px) {
-  .np-scroller {
-    grid-auto-columns: 160px;
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-  .np-carousel {
-    padding: 4px 12px;
-  }
-  .np-nav {
-    opacity: 1;
-    pointer-events: auto;
-    background: rgba(0, 0, 0, 0.45);
-  }
+  .np-scroller { --np-cols: 2; padding-left: 8px; padding-right: 8px; }
+  .np-carousel { padding: 4px 12px; }
+  .np-nav { opacity: 1; pointer-events: auto; background: rgba(0,0,0,0.45); }
 }
-@media (max-width: 900px) {
-  .movies-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+
+@media (max-width: 420px) {
+  .np-scroller { --np-cols: 1; }
 }

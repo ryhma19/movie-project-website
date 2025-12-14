@@ -51,6 +51,7 @@ export default function Login() {
   };
 
   return (
+  <div className="auth-wrapper">
   <form onSubmit={handleSubmit} className="auth-card">
     <input
       name="email"
@@ -72,5 +73,6 @@ export default function Login() {
     </button>
     <div className="auth-message error">{message}</div>
   </form>
+  </div>
 );
 }

@@ -12,6 +12,7 @@ import PopularMovies from "../components/PopularMovies.jsx";
 import Account from "../screens/Account.jsx";
 import MovieDetail from "../screens/MovieDetail.jsx";
 import AuthButtons from "../components/AuthButtons.jsx";
+import SearchResults from "../screens/SearchResults.jsx";
 
 const HomePage = () => {
   const cards = new Array(5).fill(0);
@@ -71,6 +72,7 @@ export default function App() {
           <Route path="*" element={<Navigate to="/home" replace />} />
           {/* Jaettu suosikkilista tokenilla */}
           <Route path="/share/:token" element={<SharedFavorites />} />
+          <Route path="/search" element={<SearchResults />} />
         </Routes>
       </main>
       {/* Sivuston alatunniste */}

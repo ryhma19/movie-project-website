@@ -36,25 +36,34 @@ export default function PopularMovies() {
   }, []);
 
   useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const firstCard = el.querySelector(".np-card");
-    if (!firstCard) return;
+  const el = scrollerRef.current;
+  if (!el) return;
 
+  const cards = el.querySelectorAll(".np-card");
+  if (cards.length >= 2) {
+    const exactStep = cards[1].offsetLeft - cards[0].offsetLeft;
+    if (exactStep > 0) setStep(exactStep);
+  } else if (cards.length === 1) {
     const style = window.getComputedStyle(el);
-    const gap = parseInt(style.columnGap || "16", 10);
-    setStep(firstCard.offsetWidth + gap);
-  }, [movies]);
+    const gap = parseInt(style.columnGap || style.gap || "16", 10);
+    setStep(cards[0].offsetWidth + gap);
+  }
+}, [movies]);
 
-  const scrollByCards = (dir) => {
-    const el = scrollerRef.current;
-    if (!el) return;
+const scrollByCards = (dir) => {
+  const el = scrollerRef.current;
+  if (!el || !step) return;
 
-    el.scrollBy({
-      left: (dir === "right" ? 1 : -1) * step * 5,
-      behavior: "smooth",
-    });
-  };
+  const visibleCount = Math.max(1, Math.floor(el.clientWidth / step));
+
+  const current = el.scrollLeft;
+  const snapped = Math.round(current / step) * step;
+
+  const delta = (dir === "right" ? 1 : -1) * step * visibleCount;
+  const target = snapped + delta;
+
+  el.scrollTo({ left: target, behavior: "smooth" });
+};
 
   if (loading) {
     return (
