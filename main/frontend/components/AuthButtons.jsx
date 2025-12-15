@@ -28,11 +28,11 @@ export default function AuthButtons() {
 
   return (
     <>
-      <Link to="/login">
-        <button className="user">Sign in</button>
+      <Link to="/login" className="header-button">
+        Sign in
       </Link>
-      <Link to="/register">
-        <button>Register</button>
+      <Link to="/register" className="header-button">
+        Register
       </Link>
     </>
   );

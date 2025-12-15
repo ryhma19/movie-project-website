@@ -1,0 +1,53 @@
+:root[data-theme="light"]{
+  --bg: #F7F6F2;
+  --panel: #dadada;
+  --muted: #6F6F6F;
+  --accent: #111;
+  --panel-border: #D6D3C8;
+  --text: #1F1F1F;
+  --header-bg: rgba(255,255,255,0.75);
+  --input-bg: #ffffff;
+  --input-border: #cfcfcf;
+  --footer-bg: rgba(255,255,255,0.75);
+  --input-placeholder: #8a8a8a;
+  --focus-ring: #111;
+  --card-shadow: #ffffff;
+  --toggle-filter-dark: none;
+}
+
+:root[data-theme="light"] header {
+  background: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="light"] .header-button,
+:root[data-theme="light"] .theme-toggle {
+  background-color: none;
+  border: none;
+  color: #1a1a1a;
+  border-radius: 8px;
+}
+
+:root[data-theme="light"] .header-button:hover,
+:root[data-theme="light"] .theme-toggle:hover {
+  background: #ffe066;
+  color: #000;
+}
+
+:root[data-theme="light"] .btn {
+  border-color: #ffe066;
+  color: #1a1a1a;
+}
+:root[data-theme="light"] .btn:hover {
+  background: #ffe066;
+  color: #000;
+}
+
+:root[data-theme="light"] .np-name {
+  color: #1a1a1a;
+}
+
+:root[data-theme="light"] .theme-toggle:hover {
+  background: rgba(0,0,0,0);
+  filter: drop-shadow(0 0 8px var(--accent));
+}

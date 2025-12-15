@@ -16,7 +16,7 @@ import SearchResults from "../screens/SearchResults.jsx";
 import GroupsPage from "../screens/GroupsPage.jsx";
 import GroupDetail from "../screens/GroupDetail.jsx";
 import MovieReviews from "../components/MovieReviews.jsx";
-
+import ThemeToggle from "../components/ThemeToggle.jsx";
 
 
 
@@ -49,20 +49,21 @@ export default function App() {
             <MovieSearch />
           </div>
           <div className="header-right">
-            <button onClick={() => setShowFavorites(!showFavorites)}>
+            <button type="button" className="header-button" onClick={() => setShowFavorites(!showFavorites)}>
               {showFavorites ? "Hide Favorites" : "Favorites"}
             </button>
 
             {/* Navigointi ryhmäsivulle */}
-            <Link to="/groups">
-              <button>Groups</button>
+            <Link to="/groups" className="header-button">
+              Groups
             </Link>
 
             {/* Navigointi sisäänkirjautumis- ja rekisteröitymissivuille */}
-            <Link to="/account">
-              <button>Account</button>
+            <Link to="/account" className="header-button">
+              Account
             </Link>
             <AuthButtons />
+            <ThemeToggle />
           </div>
         </div>
       </header>

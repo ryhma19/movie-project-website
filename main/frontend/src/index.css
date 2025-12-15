@@ -3,10 +3,31 @@
   --panel: #181818;
   --muted: #bbb;
   --accent: #ffe066;
+  --btn-accent: #ffe06625;
   --panel-border: #333;
+  --text: var(var(--accent));
+  --header-bg: #1a1a1a;
+  --input-bg: #333;
+  --input-border: #444;
+  --footer-bg: #1a1a1a;
+  --input-placeholder: #666;
+  --focus-ring: var(--accent);
+  --card-shadow: #191919;
+  --toggle-filter-dark: brightness(0) saturate(100%) invert(72%) sepia(80%) saturate(400%) hue-rotate(5deg);
 }
 * {
   box-sizing: border-box;
+}
+
+a, a:hover {
+  background: none;
+  border: none;
+}
+
+body, header, main, footer,
+.movie-card, .np-card, .auth-card,
+header input[type="search"], .footer, .header-button {
+  transition: background-color 1s ease, color 1s ease, border-color 1s ease, box-shadow 1s ease;
 }
 
 html,
@@ -26,6 +47,12 @@ body {
   color: var(--accent);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
 header {
   background: rgba(26, 26, 26, 0.65);
   backdrop-filter: blur(10px);
@@ -46,32 +73,43 @@ header input[type="search"] {
   width: 100%;
   padding: 4px;
   font-size: 14px;
-  background: #333;
-  color: var(--accent);
-  border: 2px solid #444;
+  background: var(--input-bg);
+  color: var(--text);
+  border: 2px solid var(--input-border);
   box-shadow: none;
   outline: none;
   margin-right: 0;
 }
-header button,
-header .user {
-  background: #222;
-  border: 2px solid #444;
+
+header input[type="search"]::placeholder{
+  color: var(--muted);
+}
+
+header input[type="search"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.header-button, .theme-toggle {
+  background: none;
+  border: none;
   color: var(--accent);
   cursor: pointer;
   margin-left: 8px;
   font-size: 14px;
   padding: 4px 10px;
   font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  background-color: transparent;
 }
 
-header button:hover,
-.user:hover {
-  background: var(--accent);
-  color: #000;
+.header-button:hover {
+  background: var(--btn-accent);
   transform: translateY(-1px);
   transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
   transform: translateY(-1px);
+  outline: none;
 }
 
 .header-inner {
@@ -140,7 +178,7 @@ h2 {
   background-color: var(--panel);
   padding: 12px 8px;
   border: 2px solid var(--panel-border);
-  box-shadow: 0 0 6px #191919;
+  box-shadow: 0 0 6px var(--card-shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -212,6 +250,8 @@ h2 {
   overflow-y: hidden;
   scroll-behavior: smooth;
   padding: 8px 0;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 
 .np-scroller::-webkit-scrollbar {
@@ -222,16 +262,12 @@ h2 {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
-.np-scroller {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
-}
 
 .np-card {
   background: var(--panel);
   border: 2px solid var(--panel-border);
   border-radius: 10px;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 6px var(--card-shadow);
   padding: 14px;
   display: flex;
   flex-direction: column;
@@ -248,11 +284,17 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.25s ease-in-out;
 }
 .np-imgwrap img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.np-imgwrap:hover {
+  transform: scale(1.025);
+  filter:brightness(125%);
 }
 
 .np-meta {
@@ -298,9 +340,15 @@ h2 {
 
 .np-left {
   left: -6px;
+  transition: .25s ease-in-out;
 }
 .np-right {
   right: -6px;
+  transition: .25s ease-in-out;
+}
+
+.np-left:hover, .np-right:hover {
+  font-size: 38px;
 }
 .np-carousel:hover .np-nav {
   opacity: 1;
@@ -319,10 +367,10 @@ h2 {
 }
 
 .footer {
-  background-color: #1a1a1a;
+  background-color: var(--footer-bg);
   padding: 20px 0;
-  color: var(--accent);
-  border-top: 2px solid #333;
+  color: var(--text);
+  border-top: 2px solid var(--panel-border);
   display: flex;
   justify-content: center;
   margin-top: auto;
@@ -359,30 +407,6 @@ h2 {
   margin-bottom: 16px;
   color: #ff6b6b;
   font-size: 16px;
-}
-
-.account-login-btn {
-  display: inline-block;
-  padding: 8px 18px;
-  border-radius: 6px;
-  border: 2px solid var(--accent);
-  background: transparent;
-  color: var(--accent);
-  font-weight: 600;
-  font-size: 14px;
-  text-decoration: none;
-  letter-spacing: 0.3px;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
-}
-
-.account-login-btn:hover {
-  background: var(--accent);
-  color: #000;
-  transform: translateY(-1px);
-}
-
-.account-login-btn:active {
-  transform: translateY(0);
 }
 
 .auth-wrapper {
@@ -425,21 +449,16 @@ h2 {
 .auth-input {
   padding: 8px 10px;
   border-radius: 6px;
-  border: 2px solid #444;
-  background: #121212;
-  color: var(--accent);
+  border: 2px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text), var(--accent);
   font-size: 14px;
 }
 
 .auth-input::placeholder {
-  color: #666;
+  color: var(--input-placeholder);
 }
 
-.auth-input:focus {
-  outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 1px var(--accent);
-}
 
 .auth-actions {
   margin-top: 12px;
@@ -470,6 +489,7 @@ h2 {
   font-weight: 600;
   cursor: pointer;
   transition: background 0.25s ease, color 0.25s ease, transform 0.05s ease;
+  text-decoration: none;
 }
 
 .btn:hover {
@@ -497,6 +517,25 @@ h2 {
 .home-link:hover {
   opacity: 0.85;
 }
+
+.theme-toggle {
+  background: rgba(0,0,0,0);
+  border: none;
+  margin-left: 12px;
+}
+
+.theme-toggle img {
+  width: 18px;
+  height: 18px;
+  filter: var(--toggle-filter-dark);
+}
+
+.theme-toggle:hover {
+  filter: drop-shadow(0 0 8px var(--accent));
+  background: rgba(0,0,0,0);
+  border: none
+}
+
 
 @media (max-width: 1280px) {
   .np-scroller { --np-cols: 4; }

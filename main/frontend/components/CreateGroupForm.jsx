@@ -46,9 +46,10 @@ export default function CreateGroupForm() {
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
+        className="auth-input"
       />
 
-      <button type="submit" disabled={loading}>
+      <button type="submit" className="btn" disabled={loading}>
         {loading ? "Creating..." : "Create"}
       </button>
     </form>

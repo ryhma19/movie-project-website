@@ -104,7 +104,7 @@ export default function Account() {
       <section className="container">
         <h2>User info</h2>
         <p className="account-error">{error}</p>
-        <Link to="/login" className="account-login-btn">
+        <Link to="/login" className="btn">
           Go to login
         </Link>
       </section>
