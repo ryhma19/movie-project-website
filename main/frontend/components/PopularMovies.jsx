@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import FavoriteButton from "./FavoriteButton.jsx";
 
 export default function PopularMovies() {
@@ -99,26 +100,28 @@ const scrollByCards = (dir) => {
         <div className="np-scroller" ref={scrollerRef}>
           {movies.map((m) => (
             <article className="np-card" key={m.id}>
-              <div className="np-imgwrap">
-                {m.poster ? (
-                  <img src={m.poster} alt={m.title} />
-                ) : (
-                  <div className="np-placeholder">No image</div>
-                )}
-              </div>
-              <FavoriteButton movieId={m.id} movieTitle={m.title} />
+              <Link to={`/movie/${m.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                <div className="np-imgwrap">
+                  {m.poster ? (
+                    <img src={m.poster} alt={m.title} />
+                  ) : (
+                    <div className="np-placeholder">No image</div>
+                  )}
+                </div>
 
-              <div className="np-meta">
-                <div className="np-stars">
-                  ⭐ {m.vote_average?.toFixed?.(1) ?? "–"}
+                <div className="np-meta">
+                  <div className="np-stars">
+                    ⭐ {m.vote_average?.toFixed?.(1) ?? "–"}
+                  </div>
+                  <h3 className="np-name">{m.title}</h3>
+                  <div className="np-date">
+                    {m.release_date
+                      ? new Date(m.release_date).toLocaleDateString("fi-FI")
+                      : ""}
+                  </div>
                 </div>
-                <h3 className="np-name">{m.title}</h3>
-                <div className="np-date">
-                  {m.release_date
-                    ? new Date(m.release_date).toLocaleDateString("fi-FI")
-                    : ""}
-                </div>
-              </div>
+              </Link>
+              <FavoriteButton movieId={m.id} movieTitle={m.title} />
             </article>
           ))}
         </div>

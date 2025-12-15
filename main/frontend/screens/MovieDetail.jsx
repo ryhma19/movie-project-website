@@ -106,7 +106,7 @@ export default function MovieDetail() {
 
           {movie.vote_average && (
             <div style={{ marginBottom: '12px', color: '#ffe066', fontSize: '18px', fontWeight: 'bold' }}>
-              ⭐ {movie.vote_average.toFixed(1)} / 10 (TMDB)
+              ⭐ {movie.vote_average.toFixed(1)} / 10 (TMDB Global Rating)
             </div>
           )}
 

@@ -116,7 +116,10 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
 
   return (
     <div style={{ marginTop: '20px', padding: '16px', backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: '8px' }}>
-      <h3>{movieTitle} - Reviews</h3>
+      <h3>User Reviews</h3>
+      <p style={{ color: '#bbb', fontSize: '14px', marginBottom: '16px' }}>
+        Reviews from our community users (separate from TMDB ratings above)
+      </p>
 
       {/* Average rating */}
       <div style={{ marginBottom: '12px', fontSize: '16px', fontWeight: 'bold', color: '#ffe066' }}>

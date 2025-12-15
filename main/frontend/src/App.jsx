@@ -15,6 +15,9 @@ import AuthButtons from "../components/AuthButtons.jsx";
 import SearchResults from "../screens/SearchResults.jsx";
 import GroupsPage from "../screens/GroupsPage.jsx";
 import GroupDetail from "../screens/GroupDetail.jsx";
+import MovieReviews from "../components/MovieReviews.jsx";
+
+
 
 
 const HomePage = () => {
