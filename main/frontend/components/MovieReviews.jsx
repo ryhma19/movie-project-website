@@ -118,12 +118,12 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
   return (
     <div style={{ marginTop: '20px', padding: '16px', backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: '8px' }}>
       <h3>User Reviews</h3>
-      <p style={{ color: '#bbb', fontSize: '14px', marginBottom: '16px' }}>
+      <p style={{ color: 'var(--muted)', fontSize: '14px', marginBottom: '16px' }}>
         Reviews from our community users (separate from TMDB ratings above)
       </p>
 
       {/* Average rating */}
-      <div style={{ marginBottom: '12px', fontSize: '16px', fontWeight: 'bold', color: '#ffe066' }}>
+      <div style={{ marginBottom: '12px', fontSize: '16px', fontWeight: 'bold', color: 'var(--accent)' }}>
         ⭐ {averageRating.toFixed(1)} ({reviews.length} reviews)
       </div>
 
@@ -131,7 +131,7 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
       {userId && !userHasReview ? (
         <>
           {!showForm ? (
-            <button onClick={() => setShowForm(true)} style={{ marginBottom: '12px' }}>
+            <button onClick={() => setShowForm(true)} className='btn'>
               + Add Review
             </button>
           ) : (
@@ -144,9 +144,10 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
                   style={{
                     width: '100%',
                     padding: '6px',
-                    backgroundColor: '#333',
-                    color: '#ffe066',
+                    backgroundColor: 'var(--input-placeholder)',
+                    color: 'var(--acccent)',
                     border: '1px solid #555',
+                    borderRadius: '4px',
                   }}
                 >
                   {[1, 2, 3, 4, 5].map(n => (
@@ -164,7 +165,7 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
                   style={{
                     width: '100%',
                     padding: '8px',
-                    backgroundColor: '#333',
+                    backgroundColor: 'var(--input-placeholder)',
                     color: '#fff',
                     border: '1px solid #555',
                     borderRadius: '4px',
@@ -172,10 +173,10 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
                 />
               </div>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <button type="submit" disabled={submitting}>
+                <button type="submit" className="btn" disabled={submitting}>
                   {submitting ? 'Posting...' : 'Post Review'}
                 </button>
-                <button type="button" onClick={() => setShowForm(false)}>
+                <button type="button" className="btn" onClick={() => setShowForm(false)}>
                   Cancel
                 </button>
               </div>
@@ -183,12 +184,12 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
           )}
         </>
       ) : userId && userHasReview ? (
-        <div style={{ marginBottom: '12px', color: '#bbb', fontSize: '14px' }}>
+        <div style={{ marginBottom: '12px', color: 'var(--muted)', fontSize: '14px' }}>
           You have already reviewed this movie.
         </div>
       ) : (
-        <div style={{ marginBottom: '12px', color: '#bbb', fontSize: '14px' }}>
-          <Link to="/login" style={{ color: '#9cf' }}>Log in</Link> to post a review.
+        <div style={{ marginBottom: '12px', color: 'var(--text)', fontSize: '14px' }}>
+          <Link to="/login" style={{ color: 'var(--text)' }}>Log in</Link> to post a review.
         </div>
       )}
 
@@ -214,7 +215,7 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
                 <div>
-                  <strong style={{ color: '#fff' }}>{review.display_name}</strong>
+                  <strong style={{ color: 'var(--accent)' }}>{review.display_name}</strong>
                   <span style={{ marginLeft: '8px', color: '#ffe066' }}>
                     {'⭐'.repeat(review.rating)}
                   </span>
@@ -239,7 +240,7 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
               <div style={{ fontSize: '12px', color: '#bbb', marginBottom: '6px' }}>
                 {new Date(review.created_at).toLocaleDateString('fi-FI')}
               </div>
-              <p style={{ margin: '0', color: '#ddd', lineHeight: '1.5' }}>
+              <p style={{ margin: '0', color: 'var(--acccent)', lineHeight: '1.5' }}>
                 {review.body}
               </p>
             </div>

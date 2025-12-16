@@ -54,7 +54,7 @@ export default function MovieDetail() {
 
   return (
     <div style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto' }}>
-      <Link to="/home" style={{ color: '#9cf', marginBottom: '12px', display: 'inline-block' }}>
+      <Link to="/home" style={{ color: 'var(--accent)', marginBottom: '12px', display: 'inline-block' }}>
         ← Back to Home
       </Link>
 
@@ -69,6 +69,7 @@ export default function MovieDetail() {
                 width: '100%',
                 borderRadius: '8px',
                 marginBottom: '16px',
+                boxShadow: '0 12px 24px #000000af',
               }}
             />
           ) : (
@@ -96,22 +97,22 @@ export default function MovieDetail() {
 
         {/* Movie info and reviews */}
         <div>
-          <h1 style={{ margin: '0 0 8px 0', color: '#ffe066' }}>{movie.title}</h1>
+          <h1 style={{ margin: '0 0 8px 0', color: 'var(--accent)' }}>{movie.title}</h1>
           
           {movie.release_date && (
-            <div style={{ marginBottom: '12px', color: '#bbb' }}>
+            <div style={{ marginBottom: '12px', color: 'var(--muted)' }}>
               {new Date(movie.release_date).toLocaleDateString('fi-FI')}
             </div>
           )}
 
           {movie.vote_average && (
-            <div style={{ marginBottom: '12px', color: '#ffe066', fontSize: '18px', fontWeight: 'bold' }}>
+            <div style={{ marginBottom: '12px', color: 'var(--text)', fontSize: '18px', fontWeight: 'bold' }}>
               ⭐ {movie.vote_average.toFixed(1)} / 10 (TMDB Global Rating)
             </div>
           )}
 
           {movie.overview && (
-            <div style={{ marginBottom: '20px', color: '#ddd', lineHeight: '1.6' }}>
+            <div style={{ marginBottom: '20px', color: 'var(--text)', lineHeight: '1.6' }}>
               <h3>Overview</h3>
               <p>{movie.overview}</p>
             </div>
@@ -119,16 +120,16 @@ export default function MovieDetail() {
 
           {movie.genres && movie.genres.length > 0 && (
             <div style={{ marginBottom: '20px' }}>
-              <strong style={{ color: '#fff' }}>Genres:</strong>{' '}
-              <span style={{ color: '#bbb' }}>
+              <strong style={{ color: 'var(--text)' }}>Genres:</strong>{' '}
+              <span style={{ color: 'var(--muted)' }}>
                 {movie.genres.map(g => g.name).join(', ')}
               </span>
             </div>
           )}
 
           {movie.runtime && (
-            <div style={{ marginBottom: '20px', color: '#bbb' }}>
-              <strong style={{ color: '#fff' }}>Runtime:</strong> {movie.runtime} min
+            <div style={{ marginBottom: '20px', color: 'var(--muted)' }}>
+              <strong style={{ color: 'var(--text)' }}>Runtime:</strong> {movie.runtime} min
             </div>
           )}
         </div>
@@ -138,7 +139,7 @@ export default function MovieDetail() {
       <MovieReviews tmdbId={tmdbId} movieTitle={movie.title} />
 
       <div style={{ marginTop: '40px' }}>
-        <Link to="/home" style={{ color: '#9cf' }}>
+        <Link to="/home" style={{ color: 'var(--accent)' }}>
           ← Back to Home
         </Link>
       </div>
