@@ -37,34 +37,49 @@ export default function PopularMovies() {
   }, []);
 
   useEffect(() => {
-  const el = scrollerRef.current;
-  if (!el) return;
+    const el = scrollerRef.current;
+    if (!el) return;
 
-  const cards = el.querySelectorAll(".np-card");
-  if (cards.length >= 2) {
-    const exactStep = cards[1].offsetLeft - cards[0].offsetLeft;
-    if (exactStep > 0) setStep(exactStep);
-  } else if (cards.length === 1) {
+    const computeStep = () => {
+      const cards = el.querySelectorAll(".np-card");
+      if (!cards.length) return;
+
+      const style = window.getComputedStyle(el);
+      const gap = parseFloat(style.columnGap || style.gap || "0") || 0;
+      const cardW = cards[0].getBoundingClientRect().width;
+      const nextStep = cardW + gap;
+
+      if (nextStep > 0) setStep(nextStep);
+    };
+
+    const raf = requestAnimationFrame(computeStep);
+    window.addEventListener("resize", computeStep);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", computeStep);
+    };
+  }, [movies]);
+
+  const scrollByCards = (dir) => {
+    const el = scrollerRef.current;
+    if (!el || !step) return;
+
     const style = window.getComputedStyle(el);
-    const gap = parseInt(style.columnGap || style.gap || "16", 10);
-    setStep(cards[0].offsetWidth + gap);
-  }
-}, [movies]);
+    const cols =
+      parseInt(style.getPropertyValue("--np-cols"), 10) ||
+      Math.max(1, Math.floor((el.clientWidth - 16) / step));
+    const visibleCount = Math.max(1, cols);
 
-const scrollByCards = (dir) => {
-  const el = scrollerRef.current;
-  if (!el || !step) return;
+    const current = el.scrollLeft;
+    const snapped = Math.round(current / step) * step;
 
-  const visibleCount = Math.max(1, Math.floor(el.clientWidth / step));
+    const delta = (dir === "right" ? 1 : -1) * step * visibleCount;
+    const maxLeft = Math.max(0, el.scrollWidth - el.clientWidth);
+    const target = Math.min(maxLeft, Math.max(0, snapped + delta));
 
-  const current = el.scrollLeft;
-  const snapped = Math.round(current / step) * step;
-
-  const delta = (dir === "right" ? 1 : -1) * step * visibleCount;
-  const target = snapped + delta;
-
-  el.scrollTo({ left: target, behavior: "smooth" });
-};
+    el.scrollTo({ left: target, behavior: "smooth" });
+  };
 
   if (loading) {
     return (

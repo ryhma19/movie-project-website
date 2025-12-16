@@ -1,7 +1,7 @@
 :root {
   --bg: #262626;
   --panel: #181818;
-  --muted: #bbb;
+  --muted: #ffe066;
   --accent: #ffe066;
   --btn-accent: #ffe06625;
   --panel-border: #333;
@@ -19,10 +19,6 @@
   box-sizing: border-box;
 }
 
-a, a:hover {
-  background: none;
-  border: none;
-}
 
 body, header, main, footer,
 .movie-card, .np-card, .auth-card,
@@ -108,7 +104,6 @@ header input[type="search"]:focus {
   background: var(--btn-accent);
   transform: translateY(-1px);
   transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
-  transform: translateY(-1px);
   outline: none;
 }
 
@@ -185,6 +180,11 @@ h2 {
   min-width: 120px;
   min-height: 210px;
 }
+
+.movie-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+}
 .movie-image {
   width: 120px;
   height: 165px;
@@ -197,6 +197,11 @@ h2 {
   font-size: 48px;
   color: #555;
   font-weight: bold;
+}
+
+.movie-image:hover {
+  transform: scale(1.025);
+  filter:brightness(125%);
 }
 .stars {
   color: var(--accent);
@@ -249,7 +254,9 @@ h2 {
   overflow-x: auto;
   overflow-y: hidden;
   scroll-behavior: smooth;
-  padding: 8px 0;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 8px;
+  padding: 8px 8px;
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
@@ -273,6 +280,12 @@ h2 {
   flex-direction: column;
   align-items: center;
   position: relative;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.np-card:hover {
+  transform: scale(1.01);
 }
 
 .np-imgwrap {
@@ -295,6 +308,7 @@ h2 {
 .np-imgwrap:hover {
   transform: scale(1.025);
   filter:brightness(125%);
+  box-shadow: 0 20px 20px rgba(0,0,0,0.35);
 }
 
 .np-meta {

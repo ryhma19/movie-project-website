@@ -8,7 +8,7 @@
   --header-bg: rgba(255,255,255,0.75);
   --input-bg: #ffffff;
   --input-border: #cfcfcf;
-  --footer-bg: rgba(255,255,255,0.75);
+  --footer-bg: #dadada6c;
   --input-placeholder: #8a8a8a;
   --focus-ring: #111;
   --card-shadow: #ffffff;
@@ -16,7 +16,7 @@
 }
 
 :root[data-theme="light"] header {
-  background: rgba(255, 255, 255, 0.7);
+  background: #dadada6c;
   border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 

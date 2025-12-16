@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 
 /**
  * MovieReviews-komponentti
@@ -187,7 +188,7 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
         </div>
       ) : (
         <div style={{ marginBottom: '12px', color: '#bbb', fontSize: '14px' }}>
-          <a href="/login" style={{ color: '#9cf' }}>Log in</a> to post a review.
+          <Link to="/login" style={{ color: '#9cf' }}>Log in</Link> to post a review.
         </div>
       )}
 

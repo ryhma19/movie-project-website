@@ -20,7 +20,7 @@ export default function AuthButtons() {
 
   if (isLoggedIn) {
     return (
-      <button type="button" className="user" onClick={handleLogout}>
+      <button type="button" className="header-button" onClick={handleLogout}>
         Log out
       </button>
     );
