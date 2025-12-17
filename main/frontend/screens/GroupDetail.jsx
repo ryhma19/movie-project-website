@@ -46,7 +46,6 @@ export default function GroupDetail({ currentUserId }) {
 
   if (!group || loading) return <p>Loading...</p>;
 
-  
   const storedId = Number(localStorage.getItem("userId"));
   const propId = Number(currentUserId);
   const currentId = Number.isFinite(propId) ? propId : storedId;
@@ -145,6 +144,32 @@ export default function GroupDetail({ currentUserId }) {
     }
   };
 
+  
+  const handleRemoveMember = async (memberId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token found. Please log in again.");
+
+      const ok = window.confirm("Remove this member from the group?");
+      if (!ok) return;
+
+      const res = await fetch(`${API_URL}/${group.id}/members/${memberId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Failed to remove member");
+
+      await refetchMembers();
+    } catch (err) {
+      console.error(err);
+      alert(err.message || "Failed to remove member");
+    }
+  };
+
   const ownerName =
     members.find((m) => Number(m.id) === ownerId)?.display_name ||
     `User ${ownerId}`;
@@ -174,13 +199,26 @@ export default function GroupDetail({ currentUserId }) {
 
       <h3>Members:</h3>
       <ul>
-        {members.map((m) => (
-          <li key={m.id}>
-            {Number(m.id) === currentId
-              ? "You"
-              : m.display_name || `User ${m.id}`}
-          </li>
-        ))}
+        {members.map((m) => {
+          const memberId = Number(m.id);
+          const isMe = memberId === currentId;
+
+          return (
+            <li key={m.id}>
+              {isMe ? "You" : m.display_name || `User ${m.id}`}
+
+              {/* owner can remove members */}
+              {isOwner && !isMe && (
+                <button
+                  onClick={() => handleRemoveMember(memberId)}
+                  style={{ marginLeft: 8 }}
+                >
+                  Remove
+                </button>
+              )}
+            </li>
+          );
+        })}
       </ul>
 
       <p>

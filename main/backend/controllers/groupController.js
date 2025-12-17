@@ -1,7 +1,11 @@
 import { pool } from '../src/db.js';
 import { createGroupDB, addMemberDB, removeMemberDB } from '../models/groupModel.js';
 
-
+/**
+ * CREATE GROUP
+ * owner_id = logged-in user
+ * creator auto-joins group
+ */
 export const createGroup = async (req, res) => {
   const { name } = req.body;
   const ownerId = req.user.id; 
@@ -25,7 +29,9 @@ export const createGroup = async (req, res) => {
   }
 };
 
-
+/**
+ * JOIN GROUP
+ */
 export const addMember = async (req, res) => {
   const { groupId } = req.body;
   const userId = req.user.id;
@@ -43,7 +49,9 @@ export const addMember = async (req, res) => {
   }
 };
 
-
+/**
+ * LEAVE GROUP (self)
+ */
 export const removeMember = async (req, res) => {
   const { groupId } = req.body;
   const userId = req.user.id;
@@ -57,7 +65,9 @@ export const removeMember = async (req, res) => {
   }
 };
 
-
+/**
+ * GET ALL GROUPS
+ */
 export const getAllGroups = async (_req, res) => {
   try {
     const { rows } = await pool.query('SELECT * FROM groups');
@@ -67,7 +77,9 @@ export const getAllGroups = async (_req, res) => {
   }
 };
 
-
+/**
+ * GET GROUP BY ID
+ */
 export const getGroupById = async (req, res) => {
   const { id } = req.params;
 
@@ -87,10 +99,12 @@ export const getGroupById = async (req, res) => {
   }
 };
 
-
+/**
+ * DELETE GROUP (ONLY OWNER)
+ */
 export const deleteGroup = async (req, res) => {
-  const groupId = req.params.id;
-  const userId = req.user.id;
+  const groupId = Number(req.params.id);
+  const userId = Number(req.user.id);
 
   try {
     const { rows } = await pool.query(
@@ -102,7 +116,7 @@ export const deleteGroup = async (req, res) => {
       return res.status(404).json({ error: 'Group not found' });
     }
 
-    if (rows[0].owner_id !== userId) {
+    if (Number(rows[0].owner_id) !== userId) {
       return res.status(403).json({ error: 'Only the creator can delete this group' });
     }
 
@@ -114,7 +128,9 @@ export const deleteGroup = async (req, res) => {
   }
 };
 
-
+/**
+ * UPDATE GROUP
+ */
 export const updateGroup = async (req, res) => {
   const { id } = req.params;
   const { name, description } = req.body;
@@ -152,6 +168,46 @@ export const getGroupMembers = async (req, res) => {
 
     res.json(rows);
   } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+/**
+ * OWNER REMOVES MEMBER
+ * Only owner can remove other users
+ */
+export const removeMemberAsOwner = async (req, res) => {
+  const groupId = Number(req.params.id);
+  const targetUserId = Number(req.params.userId);
+  const ownerId = Number(req.user.id);
+
+  // prevent owner removing themselves
+  if (targetUserId === ownerId) {
+    return res.status(400).json({ error: 'Owner cannot remove themselves' });
+  }
+
+  try {
+    const { rows } = await pool.query(
+      'SELECT owner_id FROM groups WHERE id = $1',
+      [groupId]
+    );
+
+    if (!rows.length) {
+      return res.status(404).json({ error: 'Group not found' });
+    }
+
+    if (Number(rows[0].owner_id) !== ownerId) {
+      return res.status(403).json({ error: 'Only owner can remove members' });
+    }
+
+    await pool.query(
+      'DELETE FROM group_memberships WHERE group_id = $1 AND user_id = $2',
+      [groupId, targetUserId]
+    );
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error owner removing member:', err);
     res.status(500).json({ error: err.message });
   }
 };

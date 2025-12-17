@@ -55,11 +55,14 @@ export async function login(req, res) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    // ✅ Kirjautuminen onnistui, luodaan JWT-token
+    //Kirjautuminen onnistui, luodaan JWT-token
     const token = jwt.sign(
       { id: user.id },                 // vastaa authMiddleware: decoded.id
       process.env.JWT_SECRET,
-      { expiresIn: '1h' }
+      { 
+        expiresIn: '7d',               
+        algorithm: 'HS256'             
+      }
     );
 
     // Kirjautuminen onnistui, palautetaan käyttäjätiedot + token

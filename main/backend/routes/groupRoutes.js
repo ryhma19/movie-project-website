@@ -8,9 +8,10 @@ import {
   deleteGroup,
   updateGroup,
   getGroupMembers,
+  removeMemberAsOwner, 
 } from '../controllers/groupController.js';
 
-import { requireAuth } from '../middleware/authMiddleware.js'; 
+import { requireAuth } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -29,5 +30,8 @@ router.patch('/:id', requireAuth, updateGroup);
 
 // DELETE route
 router.delete('/:id', requireAuth, deleteGroup);
+
+// OWNER removes member
+router.delete('/:id/members/:userId', requireAuth, removeMemberAsOwner);
 
 export default router;
