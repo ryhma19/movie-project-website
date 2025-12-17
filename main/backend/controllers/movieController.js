@@ -87,3 +87,29 @@ export async function getNowPlayingMovies(req, res) {
     res.status(500).json({ error: e.message });
   }
 }
+
+export async function getMovieDetails(req, res) {
+  try {
+    const apiKey = ensureApiKey(res);
+    if (!apiKey) return;
+
+    const movieId = req.params.id;
+    const language = req.query.language || "fi-FI";
+
+    const url = new URL(`https://api.themoviedb.org/3/movie/${movieId}`);
+    url.searchParams.set("language", language);
+    url.searchParams.set("api_key", apiKey);
+
+    const tmdbRes = await fetch(url);
+    if (!tmdbRes.ok) {
+      const text = await tmdbRes.text();
+      return res.status(tmdbRes.status).json({ error: "TMDB error", details: text });
+    }
+
+    const data = await tmdbRes.json();
+    res.json(mapMovie(data));
+  } catch (e) {
+    console.error("Movie details error:", e);
+    res.status(500).json({ error: e.message });
+  }
+}
