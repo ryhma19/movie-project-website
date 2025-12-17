@@ -20,6 +20,13 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
   const userId = localStorage.getItem('userId');
   const userHasReview = reviews.some(r => r.user_id === parseInt(userId));
 
+  // Debug log
+  console.log('MovieReviews Debug:', {
+    userId: userId,
+    userIdParsed: parseInt(userId),
+    reviews: reviews.map(r => ({ id: r.id, user_id: r.user_id, display_name: r.display_name }))
+  });
+
   useEffect(() => {
     loadReviews();
     loadAverageRating();
@@ -220,7 +227,7 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
                     {'⭐'.repeat(review.rating)}
                   </span>
                 </div>
-                {userId === review.user_id && (
+                {parseInt(userId) === review.user_id && (
                   <button
                     onClick={() => handleDeleteReview(review.id)}
                     style={{
@@ -228,12 +235,13 @@ export default function MovieReviews({ tmdbId, movieTitle }) {
                       border: '1px solid #ff6464',
                       color: '#ff9999',
                       cursor: 'pointer',
-                      padding: '4px 8px',
-                      borderRadius: '4px',
+                      padding: '6px 12px',
+                      borderRadius: '6px',
                       fontSize: '12px',
+                      fontWeight: 'bold'
                     }}
                   >
-                    Delete
+                    🗑️ Delete
                   </button>
                 )}
               </div>
