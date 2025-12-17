@@ -569,3 +569,58 @@ h2 {
 @media (max-width: 420px) {
   .np-scroller { --np-cols: 1; }
 }
+
+groups-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.groups-panel {
+  background: var(--panel);
+  border: 2px solid var(--panel-border);
+  border-radius: 10px;
+  box-shadow: 0 0 6px var(--card-shadow);
+  padding: 16px;
+}
+
+.groups-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.groups-list li {
+  background: var(--panel);
+  border: 2px solid var(--panel-border);
+  border-radius: 10px;
+  box-shadow: 0 0 6px var(--card-shadow);
+  padding: 12px 14px;
+  margin: 10px 0;
+}
+
+.groups-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 12px 0;
+}
+
+.groups-actions .btn {
+  width: auto;
+}
+
+.groups-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.groups-link:hover {
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+.groups-link:visited {
+  color: var(--accent);
+}

@@ -144,7 +144,6 @@ export default function GroupDetail({ currentUserId }) {
     }
   };
 
-  
   const handleRemoveMember = async (memberId) => {
     try {
       const token = localStorage.getItem("token");
@@ -175,55 +174,62 @@ export default function GroupDetail({ currentUserId }) {
     `User ${ownerId}`;
 
   return (
-    <div>
-      <h1>{group.name}</h1>
+    <div className="groups-wrap">
+      <h2>{group.name}</h2>
 
-      <GroupDescriptionEditor group={group} onUpdate={setGroup} />
+      <div className="groups-panel">
+        <GroupDescriptionEditor group={group} onUpdate={setGroup} />
 
-      {/* join */}
-      {!isMember && !isOwner && <button onClick={handleJoin}>Join Group</button>}
+        <div className="groups-actions">
+          {/* join */}
+          {!isMember && !isOwner && (
+            <button className="btn" onClick={handleJoin}>
+              Join Group
+            </button>
+          )}
 
-      {/* leave */}
-      {isMember && !isOwner && (
-        <button onClick={handleLeave} style={{ marginLeft: 8 }}>
-          Leave Group
-        </button>
-      )}
+          {/* leave */}
+          {isMember && !isOwner && (
+            <button className="btn" onClick={handleLeave}>
+              Leave Group
+            </button>
+          )}
 
-      {/* delete */}
-      {isOwner && (
-        <button onClick={handleDelete} style={{ marginLeft: 8 }}>
-          Delete Group
-        </button>
-      )}
+          {/* delete */}
+          {isOwner && (
+            <button className="btn" onClick={handleDelete}>
+              Delete Group
+            </button>
+          )}
+        </div>
 
-      <h3>Members:</h3>
-      <ul>
-        {members.map((m) => {
-          const memberId = Number(m.id);
-          const isMe = memberId === currentId;
+        <h3>Members:</h3>
+        <ul className="groups-list">
+          {members.map((m) => {
+            const memberId = Number(m.id);
+            const isMe = memberId === currentId;
 
-          return (
-            <li key={m.id}>
-              {isMe ? "You" : m.display_name || `User ${m.id}`}
+            return (
+              <li key={m.id}>
+                <span>
+                  {isMe ? "You" : m.display_name || `User ${m.id}`}
+                </span>
 
-              {/* owner can remove members */}
-              {isOwner && !isMe && (
-                <button
-                  onClick={() => handleRemoveMember(memberId)}
-                  style={{ marginLeft: 8 }}
-                >
-                  Remove
-                </button>
-              )}
-            </li>
-          );
-        })}
-      </ul>
+                {/* owner can remove members */}
+                {isOwner && !isMe && (
+                  <button className="btn" onClick={() => handleRemoveMember(memberId)}>
+                    Remove
+                  </button>
+                )}
+              </li>
+            );
+          })}
+        </ul>
 
-      <p>
-        <strong>Owner:</strong> {isOwner ? "You" : ownerName}
-      </p>
+        <p>
+          <strong>Owner:</strong> {isOwner ? "You" : ownerName}
+        </p>
+      </div>
     </div>
   );
 }

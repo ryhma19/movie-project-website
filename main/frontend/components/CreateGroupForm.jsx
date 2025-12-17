@@ -44,21 +44,23 @@ export default function CreateGroupForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="user-card">
       <h2>Create Group</h2>
 
-      <input
-        type="text"
-        placeholder="Group name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-        className="auth-input"
-      />
+      <div className="groups-actions">
+        <input
+          type="text"
+          placeholder="Group name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+          className="auth-input"
+        />
 
-      <button type="submit" disabled={loading}>
-        {loading ? "Creating..." : "Create"}
-      </button>
+        <button type="submit" className="btn" disabled={loading}>
+          {loading ? "Creating..." : "Create"}
+        </button>
+      </div>
     </form>
   );
 }
