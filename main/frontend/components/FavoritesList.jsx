@@ -115,7 +115,7 @@ export default function FavoritesList() {
     <section className="favorites-section">
       <h2>My Favorites ({favorites.length})</h2>
       <div style={{ marginBottom: '12px' }}>
-        <button onClick={createShare} style={{ marginRight: 8 }}>Create share link</button>
+        <button onClick={createShare} className="btn" style={{ marginRight: 8 }}>Create share link</button>
         {shareLink && (
           <a href={shareLink} target="_blank" rel="noreferrer" style={{ color: '#9cf' }}>{shareLink}</a>
         )}
