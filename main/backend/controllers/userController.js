@@ -1,5 +1,6 @@
 import { findUserByEmail, createUser } from '../models/userModel.js';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken'; 
 import { pool } from '../src/db.js';
 
 //Rekisteröi uuden käyttäjän tarkistamalla ensin, onko sähköpostiosoite jo käytössä
@@ -54,10 +55,18 @@ export async function login(req, res) {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    // Kirjautuminen onnistui, palautetaan käyttäjätiedot
+    // ✅ Kirjautuminen onnistui, luodaan JWT-token
+    const token = jwt.sign(
+      { id: user.id },                 // vastaa authMiddleware: decoded.id
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    // Kirjautuminen onnistui, palautetaan käyttäjätiedot + token
     res.status(200).json({
       success: true,
       message: 'Login successful',
+      token,                           
       userId: user.id,
       displayName: user.display_name,
     });
@@ -105,13 +114,13 @@ export async function logout(req, res) {
 }
 
 export async function getAllUsers(req, res) {
-    try {
-      const result = await pool.query(
-        'SELECT id, email, display_name FROM users ORDER BY id'
-      );
-      res.json({ users: result.rows });
-    } catch (err) {
-      console.error('Get all users error', err);
-      res.status(500).json({ message: 'Failed to fetch users' });
-    }
+  try {
+    const result = await pool.query(
+      'SELECT id, email, display_name FROM users ORDER BY id'
+    );
+    res.json({ users: result.rows });
+  } catch (err) {
+    console.error('Get all users error', err);
+    res.status(500).json({ message: 'Failed to fetch users' });
+  }
 }

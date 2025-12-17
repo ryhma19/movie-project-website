@@ -13,24 +13,31 @@ export default function CreateGroupForm() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${API_URL}/create`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, ownerId: 1 }), // replace 1 with logged-in user ID
-      });
+      const token = localStorage.getItem("token"); 
 
-      if (!res.ok) {
-        const text = await res.text(); // get error message
-        throw new Error(`Server error: ${text}`);
+      if (!token) {
+        throw new Error("No token found. Please log in again.");
       }
 
-      const data = await res.json();
-      if (!data.id) throw new Error("Invalid response from server");
+      const res = await fetch(`${API_URL}/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, 
+        },
+        body: JSON.stringify({ name }),
+      });
+
+      const data = await res.json(); // read json 
+
+      if (!res.ok) {
+        throw new Error(data?.error || "Failed to create group");
+      }
 
       navigate(`/groups/${data.id}`);
     } catch (err) {
       console.error(err);
-      alert("Failed to create group: " + err.message);
+      alert(err.message);
     } finally {
       setLoading(false);
     }
@@ -49,7 +56,7 @@ export default function CreateGroupForm() {
         className="auth-input"
       />
 
-      <button type="submit" className="btn" disabled={loading}>
+      <button type="submit" disabled={loading}>
         {loading ? "Creating..." : "Create"}
       </button>
     </form>

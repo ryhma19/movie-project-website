@@ -8,7 +8,7 @@ export default function Groups() {
   const [groups, setGroups] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch groups on mount
+  
   useEffect(() => {
     fetch(API_URL)
       .then((res) => res.json())
@@ -17,7 +17,7 @@ export default function Groups() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Function to remove a group from state after deletion
+  
   const removeGroupFromState = (id) => {
     setGroups((prevGroups) => prevGroups.filter((g) => g.id !== id));
   };
@@ -37,7 +37,7 @@ export default function Groups() {
           <GroupCard
             key={group.id}
             group={group}
-            onDelete={removeGroupFromState} // Pass delete callback
+            onDelete={removeGroupFromState} 
           />
         ))
       )}

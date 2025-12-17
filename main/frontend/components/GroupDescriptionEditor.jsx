@@ -8,18 +8,30 @@ export default function GroupDescription({ group, onUpdate }) {
 
   const saveDescription = async () => {
     setSaving(true);
+
     try {
+      const token = localStorage.getItem("token");
+      if (!token) throw new Error("No token found. Please log in again.");
+
       const res = await fetch(`${API_URL}/${group.id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, 
+        },
         body: JSON.stringify({ description }),
       });
 
-      const updated = await res.json();
-      onUpdate(updated);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data?.error || data?.message || "Failed to update description");
+      }
+
+      onUpdate(data);
     } catch (err) {
       console.error(err);
-      alert("Failed to update description");
+      alert(err.message || "Failed to update description");
     } finally {
       setSaving(false);
     }

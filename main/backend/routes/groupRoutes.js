@@ -1,31 +1,33 @@
 import express from 'express';
 import {
-    createGroup,
-    addMember,
-    removeMember,
-    getAllGroups,
-    getGroupById,
-    deleteGroup,
-    updateGroup,
-    getGroupMembers, 
-  } from '../controllers/groupController.js';
+  createGroup,
+  addMember,
+  removeMember,
+  getAllGroups,
+  getGroupById,
+  deleteGroup,
+  updateGroup,
+  getGroupMembers,
+} from '../controllers/groupController.js';
+
+import { requireAuth } from '../middleware/authMiddleware.js'; 
 
 const router = express.Router();
 
 // POST routes
-router.post('/create', createGroup);         // Create a new group
-router.post('/add-member', addMember);       // Add a user to a group
-router.post('/remove-member', removeMember); // Remove a user from a group
+router.post('/create', requireAuth, createGroup);
+router.post('/add-member', requireAuth, addMember);
+router.post('/remove-member', requireAuth, removeMember);
 
 // GET routes
-router.get('/', getAllGroups);              // Get all groups
-router.get('/:id', getGroupById);           // Get a single group by ID
+router.get('/', getAllGroups);
+router.get('/:id', getGroupById);
 router.get('/:id/members', getGroupMembers);
 
 // PATCH route
-router.patch('/:id', updateGroup);          // Update group name/description
+router.patch('/:id', requireAuth, updateGroup);
 
 // DELETE route
-router.delete('/:id', deleteGroup);         // Delete a group by ID
+router.delete('/:id', requireAuth, deleteGroup);
 
 export default router;

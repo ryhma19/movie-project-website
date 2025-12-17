@@ -18,8 +18,6 @@ import GroupDetail from "../screens/GroupDetail.jsx";
 import MovieReviews from "../components/MovieReviews.jsx";
 import ThemeToggle from "../components/ThemeToggle.jsx";
 
-
-
 const HomePage = () => {
   const cards = new Array(5).fill(0);
   return (
@@ -32,6 +30,8 @@ const HomePage = () => {
 
 export default function App() {
   const [showFavorites, setShowFavorites] = useState(false);
+
+  const currentUserId = Number(localStorage.getItem("userId"));
 
   return (
     <>
@@ -49,7 +49,11 @@ export default function App() {
             <MovieSearch />
           </div>
           <div className="header-right">
-            <button type="button" className="header-button" onClick={() => setShowFavorites(!showFavorites)}>
+            <button
+              type="button"
+              className="header-button"
+              onClick={() => setShowFavorites(!showFavorites)}
+            >
               {showFavorites ? "Hide Favorites" : "Favorites"}
             </button>
 
@@ -88,7 +92,8 @@ export default function App() {
 
           {/* Groups feature routes */}
           <Route path="/groups" element={<GroupsPage />} />
-          <Route path="/groups/:id" element={<GroupDetail />} />
+          <Route path="/groups/:id" element={<GroupDetail />}
+          />
         </Routes>
       </main>
       {/* Sivuston alatunniste */}

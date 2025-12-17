@@ -10,9 +10,11 @@
     "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "jest": {
-  "testEnvironment": "node",
-  "verbose": true,
-  "setupFilesAfterEnv": ["<rootDir>/tests/jest.setup.js"]
+    "testEnvironment": "node",
+    "verbose": true,
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/jest.setup.js"
+    ]
   },
   "repository": {
     "type": "git",
@@ -30,6 +32,7 @@
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.3",
     "pg": "^8.16.3"
   },
   "devDependencies": {

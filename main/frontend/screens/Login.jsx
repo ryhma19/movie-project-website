@@ -31,12 +31,20 @@ export default function Login() {
 
       if (data.success) {
         console.log("SUCCESS TRUE — saving user info and redirecting");
+
+        
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+        }
+
         if (data.userId) {
           localStorage.setItem("userId", data.userId);
         }
+
         if (data.displayName) {
           localStorage.setItem("displayName", data.displayName);
         }
+
         setMessage("Login successful!");
         navigate("/home");
       } else {
@@ -51,25 +59,27 @@ export default function Login() {
 
   return (
     <div className="auth-wrapper">
-    <form onSubmit={handleSubmit} className="auth-card">
-      <input
-        name="email"
-        value={form.email}
-        onChange={handleChange}
-        placeholder="Sähköposti"
-        className="auth-input"
-      />
-      <input
-        name="password"
-        type="password"
-        value={form.password}
-        onChange={handleChange}
-        placeholder="Salasana"
-        className="auth-input"
-      />
-      <button type="submit" className="btn btn-block">Kirjaudu</button>
-      <div>{message}</div>
-    </form>
+      <form onSubmit={handleSubmit} className="auth-card">
+        <input
+          name="email"
+          value={form.email}
+          onChange={handleChange}
+          placeholder="Sähköposti"
+          className="auth-input"
+        />
+        <input
+          name="password"
+          type="password"
+          value={form.password}
+          onChange={handleChange}
+          placeholder="Salasana"
+          className="auth-input"
+        />
+        <button type="submit" className="btn btn-block">
+          Kirjaudu
+        </button>
+        <div>{message}</div>
+      </form>
     </div>
   );
 }
